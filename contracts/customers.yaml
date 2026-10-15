@@ -1,0 +1,17 @@
+dataset: customers
+owner: retail-data-platform@corp.example
+steward: kyc-operations
+description: One row per retail, private-bank or business customer.
+freshness:
+  column: updated_at
+  max_age_hours: 24
+columns:
+  customer_id:   {type: string, classification: internal, checks: [not_null, unique, {regex: "^C\\d{5}$"}]}
+  full_name:     {type: string, classification: pii, masking: partial}
+  email:         {type: string, classification: pii, masking: hash, checks: [not_null, {regex: "^[^@\\s]+@[^@\\s]+\\.[a-z]{2,}$"}]}
+  ssn:           {type: string, classification: restricted, masking: redact}
+  date_of_birth: {type: date, classification: pii, masking: year_only}
+  segment:       {type: string, classification: internal, checks: [{allowed_values: [RETAIL, PRIVATE, BUSINESS]}]}
+  kyc_status:    {type: string, classification: internal, checks: [not_null, {allowed_values: [VERIFIED, PENDING, REJECTED]}]}
+  updated_at:    {type: timestamp, classification: internal}
+  notes:         {type: string, classification: internal}

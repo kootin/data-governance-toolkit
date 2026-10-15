@@ -1,0 +1,10 @@
+dataset: accounts
+owner: deposits-data@corp.example
+steward: deposits-operations
+description: Deposit and card accounts.
+columns:
+  account_id:  {type: string, classification: internal, checks: [not_null, unique]}
+  customer_id: {type: string, classification: internal, checks: [not_null, {references: customers.customer_id}]}
+  card_number: {type: string, classification: restricted, masking: last4, checks: [luhn]}
+  balance:     {type: decimal, classification: confidential, checks: [{range: {min: -1000000, max: 100000000}}]}
+  opened_on:   {type: date, classification: internal}

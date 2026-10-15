@@ -1,0 +1,13 @@
+# Which classifications each role may see unmasked. Anything else is masked per the column's rule.
+roles:
+  analyst:       {unmasked: [public, internal]}
+  data_engineer: {unmasked: [public, internal, confidential]}
+  pii_reader:    {unmasked: [public, internal, confidential, pii]}
+  admin:         {unmasked: [public, internal, confidential, pii, restricted]}
+# Separation of duties: nobody may hold both roles in a pair.
+sod_conflicts:
+  - [data_engineer, approver]
+  - [admin, approver]
+review:
+  dormant_after_days: 90
+  privileged_roles: [admin, pii_reader]

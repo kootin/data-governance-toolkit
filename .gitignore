@@ -1,0 +1,6 @@
+sample_data/
+governance_report.md
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.venv/
